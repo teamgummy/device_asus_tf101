@@ -77,8 +77,8 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 536870912
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 14372306944	
 BOARD_FLASH_BLOCK_SIZE := 131072
 
-# prebuilt Kernel
-TARGET_PREBUILT_KERNEL := device/asus/tf101/kernel
+TARGET_KERNEL_CONFIG := tf101_defconfig
+TARGET_KERNEL_SOURCE := kernel/asus/tf101
 
 # Coustom Tools
 TARGET_RECOVERY_PRE_COMMAND := "echo 'boot-recovery' > /dev/block/mmcblk0p3; sync"
