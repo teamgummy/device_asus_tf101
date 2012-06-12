@@ -23,27 +23,18 @@ DEVICE_PACKAGE_OVERLAYS += device/asus/tf101/overlay
 
 # Prebuilt kernel location
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-	LOCAL_KERNEL := device/asus/tf101/kernel
+    LOCAL_KERNEL := device/asus/tf101/kernel
 else
-	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
+    LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
 # Files needed for boot image
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel \
-    $(LOCAL_PATH)/ramdisk/init:root/init \
-    $(LOCAL_PATH)/ramdisk/sbin/adbd:root/sbin/adbd \
-    $(LOCAL_PATH)/ramdisk/sbin/ueventd:root/sbin/ueventd \
-    $(LOCAL_PATH)/ramdisk/default.prop:root/default.prop \
-    $(LOCAL_PATH)/ramdisk/init.00.rc:root/init.00.rc \
-    $(LOCAL_PATH)/ramdisk/init.01.rc:root/init.01.rc \
-    $(LOCAL_PATH)/ramdisk/init.08.rc:root/init.08.rc \
-    $(LOCAL_PATH)/ramdisk/init.goldfish.rc:root/init.goldfish.rc \
-    $(LOCAL_PATH)/ramdisk/init.rc:root/init.rc \
     $(LOCAL_PATH)/ramdisk/init.ventana.rc:root/init.ventana.rc \
-    $(LOCAL_PATH)/ramdisk/ueventd.goldfish.rc:root/ueventd.goldfish.rc \
-    $(LOCAL_PATH)/ramdisk/ueventd.rc:root/ueventd.rc \
+    $(LOCAL_PATH)/ramdisk/init.ventana.usb.rc:root/init.ventana.usb.rc \
     $(LOCAL_PATH)/ramdisk/ueventd.ventana.rc:root/ueventd.ventana.rc
+
 
 # Prebuilt configeration files
 PRODUCT_COPY_FILES += \
@@ -60,16 +51,11 @@ PRODUCT_COPY_FILES += \
 
 # Any prebuilt kernel modules
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/lib/modules/bcm4329.ko:system/lib/modules/bcm4329.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/bcmdhd.ko:system/lib/modules/bcmdhd.ko \
     $(LOCAL_PATH)/prebuilt/lib/modules/battery_rvsd.ko:system/lib/modules/battery_rvsd.ko \
     $(LOCAL_PATH)/prebuilt/lib/modules/scsi_wait_scan.ko:system/lib/modules/scsi_wait_scan.ko \
     $(LOCAL_PATH)/prebuilt/lib/modules/cifs.ko:system/lib/modules/cifs.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/ff-memless.ko:system/lib/modules/ff-memless.ko \
     $(LOCAL_PATH)/prebuilt/lib/modules/md4.ko:system/lib/modules/md4.ko \
     $(LOCAL_PATH)/prebuilt/lib/modules/texfat.ko:system/lib/modules/texfat.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/tun.ko:system/lib/modules/tun.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/xpad.ko:system/lib/modules/xpad.ko \
     $(LOCAL_PATH)/prebuilt/lib/modules/tntfs.ko:system/lib/modules/tntfs.ko
 
 # Camera/WiFi/BT Firmware
@@ -79,19 +65,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/bluetooth/blacklist.conf:system/etc/bluetooth/blacklist.conf \
     $(LOCAL_PATH)/prebuilt/etc/bluetooth/input.conf:system/etc/bluetooth/input.conf \
     $(LOCAL_PATH)/prebuilt/etc/bluetooth/network.conf:system/etc/bluetooth/network.conf \
-    $(LOCAL_PATH)/prebuilt/etc/nvram.txt:system/etc/nvram.txt \
-    $(LOCAL_PATH)/prebuilt/etc/nvram_murata.txt:system/etc/nvram_murata.txt \
-    $(LOCAL_PATH)/prebuilt/etc/nvram_nh615.txt:system/etc/nvram_nh615.txt \
-    $(LOCAL_PATH)/prebuilt/etc/nvram_nh615_sl101.txt:system/etc/nvram_nh615_sl101.txt \
-    $(LOCAL_PATH)/prebuilt/etc/firmware/bcm4329.hcd:system/etc/firmware/bcm4329.hcd \
-    $(LOCAL_PATH)/prebuilt/etc/firmware/BCM4329B1_002.002.023.0797.0863.hcd:system/etc/firmware/BCM4329B1_002.002.023.0797.0863.hcd \
-    $(LOCAL_PATH)/prebuilt/etc/firmware/BCM4329B1_002.002.023.0797.0879.hcd:system/etc/firmware/BCM4329B1_002.002.023.0797.0879.hcd \
-    $(LOCAL_PATH)/prebuilt/etc/firmware/BCM4329B1_002.002.023.0797.0942.hcd:system/etc/firmware/BCM4329B1_002.002.023.0797.0942.hcd \
-    $(LOCAL_PATH)/prebuilt/vendor/firmware/fw_bcm4329.bin:system/vendor/firmware/fw_bcm4329.bin \
-    $(LOCAL_PATH)/prebuilt/vendor/firmware/fw_bcm4329_apsta.bin:system/vendor/firmware/fw_bcm4329_apsta.bin \
-    $(LOCAL_PATH)/prebuilt/vendor/firmware/bcm4329/fw_bcmdhd.bin:system/vendor/firmware/bcm4329/fw_bcmdhd.bin \
-    $(LOCAL_PATH)/prebuilt/vendor/firmware/bcm4329/fw_bcmdhd_apsta.bin:system/vendor/firmware/bcm4329/fw_bcmdhd_apsta.bin \
-    $(LOCAL_PATH)/prebuilt/vendor/firmware/bcm4329/fw_bcmdhd_p2p.bin:system/vendor/firmware/bcm4329/fw_bcmdhd_p2p.bin \
     $(LOCAL_PATH)/prebuilt/bin/brcm_patchram_plus:system/bin/brcm_patchram_plus 
 
 # These are the hardware-specific features
@@ -112,30 +85,7 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml \
-    $(LOCAL_PATH)/prebuilt/etc/permissions/com.asus.hardware.00.xml:system/etc/permissions/com.asus.hardware.00.xml \
-    $(LOCAL_PATH)/prebuilt/etc/permissions/com.asus.hardware.01.xml:system/etc/permissions/com.asus.hardware.01.xml \
-    $(LOCAL_PATH)/prebuilt/etc/permissions/com.asus.hardware.08.xml:system/etc/permissions/com.asus.hardware.08.xml \
-    $(LOCAL_PATH)/prebuilt/etc/permissions/com.asus.hardware.10.xml:system/etc/permissions/com.asus.hardware.10.xml
-
-# ALSA Config files
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/alsa.conf:system/usr/share/alsa/alsa.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/cards/aliases.conf:system/usr/share/alsa/cards/aliases.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/center_lfe.conf:system/usr/share/alsa/pcm/center_lfe.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/default.conf:system/usr/share/alsa/pcm/default.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/dmix.conf:system/usr/share/alsa/pcm/dmix.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/dpl.conf:system/usr/share/alsa/pcm/dpl.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/dsnoop.conf:system/usr/share/alsa/pcm/dsnoop.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/front.conf:system/usr/share/alsa/pcm/front.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/iec958.conf:system/usr/share/alsa/pcm/iec958.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/modem.conf:system/usr/share/alsa/pcm/modem.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/rear.conf:system/usr/share/alsa/pcm/rear.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/side.conf:system/usr/share/alsa/pcm/side.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/surround40.conf:system/usr/share/alsa/pcm/surround40.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/surround41.conf:system/usr/share/alsa/pcm/surround41.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/surround50.conf:system/usr/share/alsa/pcm/surround50.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/surround51.conf:system/usr/share/alsa/pcm/surround51.conf \
-    $(LOCAL_PATH)/prebuilt/usr/share/alsa/pcm/surround71.conf:system/usr/share/alsa/pcm/surround71.conf
+    $(LOCAL_PATH)/prebuilt/etc/permissions/com.asus.hardware.00.xml:system/etc/permissions/com.asus.hardware.00.xml 
 
 #Misc
 PRODUCT_COPY_FILES += \
@@ -143,27 +93,11 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/app/LatinImeDictionaryPack.apk:system/app/LatinImeDictionaryPack.apk \
     $(LOCAL_PATH)/prebuilt/lib/libjni_latinime.so:system/lib/libjni_latinime.so \
     $(LOCAL_PATH)/prebuilt/xbin/remount:system/xbin/remount \
-    $(LOCAL_PATH)/prebuilt/bin/sensors-config:system/bin/sensors-config \
-    $(LOCAL_PATH)/prebuilt/bin/glgps:system/bin/glgps \
     $(LOCAL_PATH)/prebuilt/bin/ps3service:system/bin/ps3service \
     $(LOCAL_PATH)/prebuilt/xbin/rfcomm:system/xbin/rfcomm \
     $(LOCAL_PATH)/prebuilt/xbin/ps3bttest:system/xbin/ps3bttest \
     $(LOCAL_PATH)/prebuilt/bin/sixpair:system/bin/sixpair \
-    $(LOCAL_PATH)/prebuilt/etc/permissions/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
-    $(LOCAL_PATH)/prebuilt/lib/libhuawei-ril.so:system/lib/libhuawei-ril.so \
-    $(LOCAL_PATH)/prebuilt/etc/init.d/02ppp:system/etc/init.d/02ppp \
-    $(LOCAL_PATH)/prebuilt/etc/init.d/05modules:system/etc/init.d/05modules \
-    $(LOCAL_PATH)/prebuilt/etc/ppp/peers/gprs:system/etc/ppp/peers/gprs \
-    $(LOCAL_PATH)/prebuilt/etc/ppp/peers/pppd-ril.options:system/etc/ppp/peers/pppd-ril.options \
-    $(LOCAL_PATH)/prebuilt/etc/ppp/chap-secrets:system/etc/ppp/chap-secrets \
-    $(LOCAL_PATH)/prebuilt/etc/ppp/gprs-connect-chat:system/etc/ppp/gprs-connect-chat \
-    $(LOCAL_PATH)/prebuilt/etc/ppp/ip-down:system/etc/ppp/ip-down \
-    $(LOCAL_PATH)/prebuilt/etc/ppp/ip-down-HUAWEI:system/etc/ppp/ip-down-HUAWEI \
-    $(LOCAL_PATH)/prebuilt/etc/ppp/ip-up:system/etc/ppp/ip-up \
-    $(LOCAL_PATH)/prebuilt/etc/ppp/ip-up-HUAWEI:system/etc/ppp/ip-up-HUAWEI \
-    $(LOCAL_PATH)/prebuilt/etc/ppp/ip-up-vpn:system/etc/ppp/ip-up-vpn \
-    $(LOCAL_PATH)/prebuilt/etc/ppp/options.huawei:system/etc/ppp/options.huawei \
-    $(LOCAL_PATH)/prebuilt/etc/ppp/pap-secrets:system/etc/ppp/pap-secrets
+    $(LOCAL_PATH)/prebuilt/etc/init.d/05modules:system/etc/init.d/05modules
    
 # Build characteristics setting 
 PRODUCT_CHARACTERISTICS := tablet
@@ -200,10 +134,13 @@ $(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
 # Call the vendor to setup propiatory files
 $(call inherit-product-if-exists, vendor/asus/tf101/tf101-vendor.mk)
 
+# Copy bcm4329 firmware
+$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4329/device-bcm.mk)
+
 # Device nameing
-PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=US_epad
 PRODUCT_NAME := full_tf101
 PRODUCT_DEVICE := tf101
-PRODUCT_MODEL := tf101
+PRODUCT_MODEL := EPAD
 PRODUCT_BRAND := asus
 PRODUCT_MANUFACTURER := asus

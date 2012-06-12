@@ -15,8 +15,6 @@
 #
 
 BOARD_USES_GENERIC_AUDIO := false
-USE_CAMERA_STUB := false
-TARGET_HAS_DOCK_BATTERY := true
 
 # inherit from the proprietary version
 -include vendor/asus/tf101/BoardConfigVendor.mk
@@ -41,11 +39,12 @@ ARCH_ARM_HAVE_TLS_REGISTER := true
 # Boot/Recovery image settings  
 BOARD_KERNEL_CMDLINE := 
 BOARD_KERNEL_BASE := 0x10000000
-BOARD_KERNEL_PAGESIZE :=
+BOARD_PAGE_SIZE := 0x00000800
 
 # EGL settings
 BOARD_EGL_CFG := device/asus/tf101/prebuilt/egl.cfg
 USE_OPENGL_RENDERER := true
+SMALLER_FONT_FOOTPRINT := true
 
 # Misc display settings
 BOARD_USE_SKIA_LCDTEXT := true
@@ -54,6 +53,12 @@ BOARD_NO_ALLOW_DEQUEUE_CURRENT_BUFFER := true
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
+
+# Camera
+USE_CAMERA_STUB := true
+
+# Dock Support
+TARGET_HAS_DOCK_BATTERY := true
 
 # Wifi related defines
 WPA_SUPPLICANT_VERSION := VER_0_8_X
@@ -69,7 +74,7 @@ WIFI_DRIVER_FW_AP_PATH      := "/vendor/firmware/fw_bcm4329_apsta.bin"
 WIFI_DRIVER_MODULE_NAME     :=  "bcm4329"
 WIFI_DRIVER_MODULE_ARG      :=  "iface_name=wlan0 firmware_path=/system/vendor/firmware/fw_bcm4329.bin nvram_path=/data/misc/wifi/nvram.txt"
 
-# Todo fix these values to the spacific sizes
+# Partition sizes
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 5242880	
@@ -80,7 +85,7 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 TARGET_KERNEL_CONFIG := tf101_defconfig
 TARGET_KERNEL_SOURCE := kernel/asus/tf101
 
-# Coustom Tools
+# Custom Tools
 TARGET_RECOVERY_PRE_COMMAND := "echo 'boot-recovery' > /dev/block/mmcblk0p3; sync"
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/asus/tf101/releasetools/tf101_ota_from_target_files
 

@@ -1,4 +1,6 @@
 #
 # system.prop for tf101
 #
-ro.carrier=wifi-only
+ro.wifi.country=EU
+ro.ethernet.interface=eth0
+ro.ethernet.autoEnable=yes
