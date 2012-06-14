@@ -459,7 +459,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.SetPermissions("/system/bin/su", 0, 0, 06755)
   script.SetPermissions("/data/cron", 0, 0, 0755)
   script.SetPermissions("/data/cron/root", 0, 0, 0644)
- 
+
   common.ZipWriteStr(output_zip, "boot.blob", blob.data)
   script.ShowProgress(0.2, 0)
 

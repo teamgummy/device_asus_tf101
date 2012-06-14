@@ -21,42 +21,30 @@ $(call inherit-product-if-exists, vendor/asus/tf101/tf101-vendor.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/asus/tf101/overlay
 
-# Prebuilt kernel location
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-    LOCAL_KERNEL := device/asus/tf101/kernel
-else
-    LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
-endif
-
 # Files needed for boot image
 PRODUCT_COPY_FILES += \
-    $(LOCAL_KERNEL):kernel \
     $(LOCAL_PATH)/ramdisk/init.ventana.rc:root/init.ventana.rc \
     $(LOCAL_PATH)/ramdisk/init.ventana.usb.rc:root/init.ventana.usb.rc \
-    $(LOCAL_PATH)/ramdisk/ueventd.ventana.rc:root/ueventd.ventana.rc
-
+    $(LOCAL_PATH)/ramdisk/ueventd.ventana.rc:root/ueventd.ventana.rc \
+    $(LOCAL_PATH)/ramdisk/init.ventana.keyboard.rc:root/init.ventana.keyboard.rc \
+    $(LOCAL_PATH)/prebuilt/keyswap::root/sbin/keyswap
 
 # Prebuilt configeration files
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
     $(LOCAL_PATH)/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
     $(LOCAL_PATH)/prebuilt/etc/gps.conf:system/etc/gps.conf \
-    $(LOCAL_PATH)/prebuilt/etc/gps/gpsconfig.xml:system/etc/gps/gpsconfig.xml 
+    $(LOCAL_PATH)/prebuilt/etc/gps/gpsconfig.xml:system/etc/gps/gpsconfig.xml \
 
 # Input device configeration files
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/usr/idc/atmel-maxtouch.idc:system/usr/idc/atmel-maxtouch.idc \
     $(LOCAL_PATH)/prebuilt/usr/idc/elantech_touchscreen.idc:system/usr/idc/elantech_touchscreen.idc \
-    $(LOCAL_PATH)/prebuilt/usr/idc/panjit_touch.idc:system/usr/idc/panjit_touch.idc  
+    $(LOCAL_PATH)/prebuilt/usr/idc/panjit_touch.idc:system/usr/idc/panjit_touch.idc \
 
-# Any prebuilt kernel modules
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/lib/modules/battery_rvsd.ko:system/lib/modules/battery_rvsd.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/scsi_wait_scan.ko:system/lib/modules/scsi_wait_scan.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/cifs.ko:system/lib/modules/cifs.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/md4.ko:system/lib/modules/md4.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/texfat.ko:system/lib/modules/texfat.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/tntfs.ko:system/lib/modules/tntfs.ko
+# Localized input keychars and keylayout files
+    $(call inherit-product, $(LOCAL_PATH)/keychars/l10n/l10n.mk)
+    $(call inherit-product, $(LOCAL_PATH)/keylayout/l10n/l10n.mk)
 
 # Camera/WiFi/BT Firmware
 PRODUCT_COPY_FILES += \
@@ -65,7 +53,11 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/bluetooth/blacklist.conf:system/etc/bluetooth/blacklist.conf \
     $(LOCAL_PATH)/prebuilt/etc/bluetooth/input.conf:system/etc/bluetooth/input.conf \
     $(LOCAL_PATH)/prebuilt/etc/bluetooth/network.conf:system/etc/bluetooth/network.conf \
-    $(LOCAL_PATH)/prebuilt/bin/brcm_patchram_plus:system/bin/brcm_patchram_plus 
+    $(LOCAL_PATH)/prebuilt/etc/nvram.txt:system/etc/nvram.txt \
+    $(LOCAL_PATH)/prebuilt/etc/nvram_murata.txt:system/etc/nvram_murata.txt \
+    $(LOCAL_PATH)/prebuilt/etc/nvram_4329.txt:system/etc/nvram_4329.txt \
+    $(LOCAL_PATH)/prebuilt/etc/firmware/BCM4329B1_002.002.023.0797.0863.hcd:system/etc/firmware/BCM4329B1_002.002.023.0797.0863.hcd \
+    $(LOCAL_PATH)/prebuilt/bin/brcm_patchram_plus:system/bin/brcm_patchram_plus \
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
@@ -89,17 +81,13 @@ PRODUCT_COPY_FILES += \
 
 #Misc
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/app/LatinIME.apk:system/app/LatinIME.apk \
-    $(LOCAL_PATH)/prebuilt/app/LatinImeDictionaryPack.apk:system/app/LatinImeDictionaryPack.apk \
-    $(LOCAL_PATH)/prebuilt/lib/libjni_latinime.so:system/lib/libjni_latinime.so \
     $(LOCAL_PATH)/prebuilt/xbin/remount:system/xbin/remount \
     $(LOCAL_PATH)/prebuilt/bin/ps3service:system/bin/ps3service \
     $(LOCAL_PATH)/prebuilt/xbin/rfcomm:system/xbin/rfcomm \
     $(LOCAL_PATH)/prebuilt/xbin/ps3bttest:system/xbin/ps3bttest \
     $(LOCAL_PATH)/prebuilt/bin/sixpair:system/bin/sixpair \
-    $(LOCAL_PATH)/prebuilt/etc/init.d/05modules:system/etc/init.d/05modules
-   
-# Build characteristics setting 
+
+# Build characteristics setting
 PRODUCT_CHARACTERISTICS := tablet
 
 # This device have enough room for precise davick
@@ -107,26 +95,26 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 
 # Extra packages to build for this device
 PRODUCT_PACKAGES += \
-    	librs_jni \
-	com.android.future.usb.accessory \
-	make_ext4fs \
-	setup_fs \
+        librs_jni \
+        com.android.future.usb.accessory \
+        make_ext4fs \
+        setup_fs \
         audio.a2dp.default \
         libaudioutils \
-	libinvensense_mpl \
+        libinvensense_mpl \
         blobpack_tf \
         l2ping \
         hcitool \
         bttest \
-        whisperd
+        whisperd 
 
 # Propertys spacific for this device
 PRODUCT_PROPERTY_OVERRIDES := \
-    	wifi.interface=wlan0 \
-    	wifi.supplicant_scan_interval=15 \
-    	ro.opengles.version=131072 \
-	persist.sys.usb.config=mtp,adb \
-	dalvik.vm.dexopt-data-only=1
+        wifi.interface=wlan0 \
+        wifi.supplicant_scan_interval=15 \
+        ro.opengles.version=131072 \
+        persist.sys.usb.config=mtp,adb \
+        dalvik.vm.dexopt-data-only=1
 
 # Inherit tablet dalvik settings
 $(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
